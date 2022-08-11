@@ -4,12 +4,12 @@
     <h1>{{ msg }}</h1>
     <div class="addTask">
       <label for=""> Task Name</label>
-    <input type="text" v-on:input="setTaskName">
+    <input type="text" v-model="taskName">
 </div>
           <button @click="addTask">Add Task</button>
   </div>
      <div class="task">
-        <li v-for="(task) in tasks" v-bind:key="task">{{task}} </li>
+        <li v-for="(task) in tasks" v-bind:key="task">{{task}} {{date}}</li>
       </div>
   </div>
 </template>
@@ -23,24 +23,15 @@ export default {
   data() {
     return {
       tasks:[],
-      taskName: '',
-      task: {
-        // name: taskName, 
-        date: new Date().getMonth() + 1
-        }
+      taskName: ''
     }
 
  },  
  methods: {
-  
-  setTaskName(event){
-this.taskName = event.target.value
-console.log("taskname desde set taskname", this,this.taskName)
-  },  
-  addTask() {
+    addTask() {
     console.log("aaa")
     console.log("taskname",this.taskName)
-    const tasknameAfter = this.task
+    const tasknameAfter = this.taskName
     this.tasks.push(tasknameAfter)
     console.log("tasks", this.tasks)
     this.taskName = ''
