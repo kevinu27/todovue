@@ -4,12 +4,12 @@
     <h1>{{ msg }}</h1>
     <div class="addTask">
       <label for=""> Task Name</label>
-    <input type="text" v-model="taskName">
+    <input type="text" v-model="taskName" >
 </div>
           <button @click="addTask">Add Task</button>
   </div>
      <div class="task">
-        <li v-for="(task) in tasks" v-bind:key="task">{{task}} {{date}}</li>
+        <li v-for="(task, index) in tasks" v-bind:key="task" >{{task.name}} - {{task.date}} {{index}} </li>
       </div>
   </div>
 </template>
@@ -22,19 +22,30 @@ export default {
   },
   data() {
     return {
-      tasks:[],
-      taskName: ''
+      tasks:[{
+         name: "",
+         date: new Date().getMonth() + 1}
+      ],
+      taskName: '',
+      // task: {
+      //   name: "",
+      //    date: new Date().getMonth() + 1
+      // }
     }
 
  },  
  methods: {
     addTask() {
-    console.log("aaa")
-    console.log("taskname",this.taskName)
-    const tasknameAfter = this.taskName
-    this.tasks.push(tasknameAfter)
-    console.log("tasks", this.tasks)
-    this.taskName = ''
+    console.log("-----")
+    // console.log("task",this.task)
+    // const tasknameAfter = this.task
+    this.tasks.push({
+      name: this.taskName,
+      date: new Date().getMonth() + 1
+    })
+    // console.log("tasks", this.tasks)
+    // this.taskName = ''
+    //  console.log("-----")
     },
   },
   }
@@ -54,7 +65,7 @@ margin-bottom: 30px;
 }
 .addTask{
   display: flex;
-  border: 2px solid green;
+ 
   justify-content: center;
 }
 label{
@@ -86,8 +97,10 @@ input{
 }
 
 .hello{
-background-color: red;
-width: 100%;
+background-color: rgb(240,240,240);
+border-radius: 10px;
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+width: 60%;
 }
 
 h3 {
