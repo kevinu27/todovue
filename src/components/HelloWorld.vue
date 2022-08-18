@@ -36,6 +36,8 @@ export default {
       taskName: '',
       dueDate:"",
       emptiness: true,
+      greenColor: false,
+
 
     }
 
@@ -56,11 +58,39 @@ export default {
     this.emptiness = false
     },
    removeTask(index){
-// this.tasks.filter(task => task.index !== index)
+// this.tasks= this.tasks.filter(task => task.index === index)
 this.tasks.splice(index, 1)
-console.log("index", index)
-   } 
+// console.log("index", index)
+   },
+     timerCheck: function () {
+      let that = this;
+      setInterval(function () {
+
+// todo esto que sea un loop que itere task[] 
+
+      if(that.tasks[0].deathlineMonth >= new Date().getMonth() + 1){
+        console.log("mismo mes o menos")
+        if(that.tasks[0].deathlineDay > new Date().getDate()){
+console.log("condicion de pasado de fecha")
+// aquu poner condicion de que se ponga de color verde
+that.greenColor = true
+        }
+
+// console.log("that.tasks[0].deathlineMonth", that.tasks[0].deathlineMonth)
+     }
+      console.log("ejecucion del timer")
+      // console.log("tasks", that.tasks)
+      // console.log("date", new Date().getDate())
+      // console.log("that.tasks[0].deathlineDay", that.tasks[0].deathlineDay)
+
+    // }, 3600000);
+       }, 3000);
+   }
+   
   },
+  mounted () {
+  this.timerCheck()
+        }
   }
 </script>
 
@@ -124,6 +154,16 @@ label{
     background-color: #42b983;
 margin-top: 15px;
 border-radius: 5px;
+}
+
+.greenColor{
+
+    background-color: #42b983;
+}
+
+.redColor{
+    background-color: #b94242;
+
 }
 
 input{
