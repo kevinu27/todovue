@@ -5,11 +5,20 @@
     <div class="addTask">
       <label for=""> Task Name</label>
     <input type="text" v-model="taskName" >
+     <label for=""> Due to</label>
+    <input type="date" v-model="dueDate">
 </div>
           <button @click="addTask">Add Task</button>
   </div>
-     <div class="task">
-        <li v-for="(task, index) in tasks" v-bind:key="task" >{{task.name}} - {{task.date}} {{index}} </li>
+     <div class="task" v-if="!emptiness > 0">
+        <li v-for="(task, index) in tasks" v-bind:key="index" >
+        <div class="taskDiv">
+          <div class="closingX"> <h3 @click="removeTask(index)">X</h3> </div>
+          <div>
+        <h2>{{task.name}}</h2></div> 
+        <div>
+        due TIme:{{task.deathlineDay}}/{{task.deathlineMonth}} </div> 
+        <div> Creation date {{task.CreationDay}}/{{task.CreationMonth}}</div></div> </li>
       </div>
   </div>
 </template>
@@ -22,36 +31,62 @@ export default {
   },
   data() {
     return {
-      tasks:[{
-         name: "",
-         date: new Date().getMonth() + 1}
+      tasks:[
       ],
       taskName: '',
-      // task: {
-      //   name: "",
-      //    date: new Date().getMonth() + 1
-      // }
+      dueDate:"",
+      emptiness: true,
+
     }
 
  },  
  methods: {
     addTask() {
-    console.log("-----")
-    // console.log("task",this.task)
-    // const tasknameAfter = this.task
     this.tasks.push({
       name: this.taskName,
-      date: new Date().getMonth() + 1
+      date: new Date().getMonth() + 1,
+      deathlineMonth: parseInt(this.dueDate.substring(5, 7)),
+      deathlineDay: parseInt(this.dueDate.substring(8,10)),
+      CreationMonth: new Date().getMonth() + 1,
+      CreationDay: new Date().getDate()
+      
     })
-    // console.log("tasks", this.tasks)
-    // this.taskName = ''
-    //  console.log("-----")
+    console.log("deathline", new Date())
+     console.log("tasks", this.tasks)
+    this.emptiness = false
     },
+   removeTask(index){
+// this.tasks.filter(task => task.index !== index)
+this.tasks.splice(index, 1)
+console.log("index", index)
+   } 
   },
   }
 </script>
 
 <style scoped>
+.closingX h3{
+    margin-top: 15px;
+    padding-top: 0;
+
+
+   
+}
+.closingX{
+  display: flex;
+  justify-content: flex-end;
+    width: 100%;
+
+}
+
+h2 {
+  margin-top: 0px;
+}
+.taskDiv{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .main{display: flex;
   flex-direction: column;
   justify-content: center;
@@ -70,7 +105,7 @@ margin-bottom: 30px;
 }
 label{
   font-weight: bold;
-  margin-right: 30px;
+  margin-right: 15px;
 }
 .task{
 
@@ -84,7 +119,8 @@ label{
 }
 .task li{
   width: 70%;
-  padding: 40px;
+  padding: 30px;
+  padding-top: 0;
     background-color: #42b983;
 margin-top: 15px;
 border-radius: 5px;
@@ -94,6 +130,7 @@ input{
   margin-bottom: 20px;
   width: 30%;
   height: 20px;
+  margin-right: 3%;
 }
 
 .hello{
