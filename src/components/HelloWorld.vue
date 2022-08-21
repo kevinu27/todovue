@@ -11,7 +11,7 @@
           <button @click="addTask">Add Task</button>
   </div>
      <div class="task" v-if="!emptiness > 0">
-        <li   v-for="(task, index) in tasks" v-bind:key="index" >
+        <li   v-for="(task, index) in tasks" v-bind:key="index" :class="[task.greenColor ? 'greenColor' :'redColor']" >
         <div class="taskDiv">
           <div class="closingX"> <h3 @click="removeTask(index)">X</h3> </div>
           <div>
@@ -36,7 +36,7 @@ export default {
       taskName: '',
       dueDate:"",
       emptiness: true,
-      greenColor: null
+      greenColor: null,
      
 
 
