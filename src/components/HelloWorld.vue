@@ -11,7 +11,7 @@
           <button @click="addTask">Add Task</button>
   </div>
      <div class="task" v-if="!emptiness > 0">
-        <li v-for="(task, index) in tasks" v-bind:key="index" >
+        <li   v-for="(task, index) in tasks" v-bind:key="index" >
         <div class="taskDiv">
           <div class="closingX"> <h3 @click="removeTask(index)">X</h3> </div>
           <div>
@@ -36,7 +36,8 @@ export default {
       taskName: '',
       dueDate:"",
       emptiness: true,
-      greenColor: false,
+      greenColor: null
+     
 
 
     }
@@ -58,27 +59,39 @@ export default {
     this.emptiness = false
     },
    removeTask(index){
-// this.tasks= this.tasks.filter(task => task.index === index)
-this.tasks.splice(index, 1)
-// console.log("index", index)
+      // this.tasks= this.tasks.filter(task => task.index === index)
+      this.tasks.splice(index, 1)
    },
-     timerCheck: function () {
-      let that = this;
-      setInterval(function () {
+  timerCheck: function () {
+  let that = this;
+  setInterval(function () { 
 
-// todo esto que sea un loop que itere task[] 
+    for(let i = 0; i< that.tasks.length; i++){
+      console.log("loopeando en el for")
+      if(that.tasks[i].deathlineMonth >= new Date().getMonth() + 1){
+          console.log("mismo mes o menos")
+          that.tasks[i].monthValidation = true  }
 
-      if(that.tasks[0].deathlineMonth >= new Date().getMonth() + 1){
-        console.log("mismo mes o menos")
-        if(that.tasks[0].deathlineDay > new Date().getDate()){
-console.log("condicion de pasado de fecha")
-// aquu poner condicion de que se ponga de color verde
-that.greenColor = true
+      if(that.tasks[i].deathlineDay > new Date().getDate()){
+          that.tasks[i].dayValidation = true
+          console.log("condicion de pasado de fecha")
         }
+        if(that.tasks[i].dayValidation && that.tasks[i].monthValidation){
+          console.log("validacion de dia y mes pasada-------------")
+          that.tasks[i].greenColor = true
+             console.log("that.task[]", that.tasks)
+        }  else {
+           console.log("validacion de dia y mes NOOOO pasada-------------")
+           that.tasks[i].greenColor = false    
+           console.log("that.task[]", that.tasks)
+        }
+}// fin del bucle for
 
-// console.log("that.tasks[0].deathlineMonth", that.tasks[0].deathlineMonth)
-     }
+// mejorar la condicion, no esta bien hecha
+
+
       console.log("ejecucion del timer")
+      // console.log("green", that.greenColor)
       // console.log("tasks", that.tasks)
       // console.log("date", new Date().getDate())
       // console.log("that.tasks[0].deathlineDay", that.tasks[0].deathlineDay)
@@ -151,7 +164,7 @@ label{
   width: 70%;
   padding: 30px;
   padding-top: 0;
-    background-color: #42b983;
+    /* background-color: #42b983; */
 margin-top: 15px;
 border-radius: 5px;
 }
